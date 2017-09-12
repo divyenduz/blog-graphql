@@ -47,7 +47,7 @@ const Query = new GraphQLObjectType({
                 id: { type: new GraphQLNonNull(GraphQLID) }
             },
             resolve: (_, args) => {
-                return fakeDatabase.filter(row => row.id === args.id)[0];
+                return fakeDatabase.filter(row => row.id == args.id)[0];
             }
         },
         posts: {
