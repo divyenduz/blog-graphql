@@ -2,7 +2,8 @@ const {
     GraphQLObjectType,
     GraphQLNonNull,
     GraphQLString,
-    GraphQLID
+    GraphQLID,
+    GraphQLInputObjectType
 } = require("graphql");
 
 const { globalIdField, connectionDefinitions } = require("graphql-relay");
