@@ -2,6 +2,7 @@ import React from "react";
 import CreatePostMutation from "../mutations/CreatePostMutation";
 import { QueryRenderer, graphql } from "react-relay";
 import environment from "../Environment";
+import { withRouter } from "react-router-dom";
 
 const CreatePostViewerQuery = graphql`
     query CreatePostViewerQuery {
@@ -12,10 +13,15 @@ const CreatePostViewerQuery = graphql`
 `;
 
 class CreatePost extends React.Component {
-    state = {
-        title: "",
-        content: ""
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            title: "",
+            content: ""
+        };
+
+        this._handlePost = this._handlePost.bind(this);
+    }
 
     render() {
         return (
@@ -69,7 +75,8 @@ class CreatePost extends React.Component {
     _handlePost = viewerId => {
         const { title, content } = this.state;
         CreatePostMutation(title, content, viewerId, () => {
-            window.location.href = "/";
+            // window.location.href = "/";
+            this.props.history.push("/");
         });
     };
 }
@@ -99,4 +106,4 @@ const styles = {
     }
 };
 
-export default CreatePost;
+export default withRouter(CreatePost);
