@@ -1,5 +1,4 @@
 import React from "react";
-import { createFragmentContainer, graphql } from "react-relay";
 import Modal from "react-modal";
 
 class Post extends React.Component {
@@ -51,13 +50,4 @@ const styles = {
     }
 };
 
-export default createFragmentContainer(
-    Post,
-    graphql`
-        fragment Post_post on Post {
-            id
-            title
-            content
-        }
-    `
-);
+export default Post;

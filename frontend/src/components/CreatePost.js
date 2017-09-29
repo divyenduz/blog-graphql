@@ -1,16 +1,5 @@
 import React from "react";
-import CreatePostMutation from "../mutations/CreatePostMutation";
-import { QueryRenderer, graphql } from "react-relay";
-import environment from "../Environment";
 import { withRouter } from "react-router-dom";
-
-const CreatePostViewerQuery = graphql`
-    query CreatePostViewerQuery {
-        viewer {
-            id
-        }
-    }
-`;
 
 class CreatePost extends React.Component {
     constructor(props) {
@@ -19,66 +8,37 @@ class CreatePost extends React.Component {
             title: "",
             content: ""
         };
-
-        this._handlePost = this._handlePost.bind(this);
     }
 
     render() {
         return (
-            <QueryRenderer
-                environment={environment}
-                query={CreatePostViewerQuery}
-                render={({ error, props }) => {
-                    if (error) {
-                        return <div>{error.message}</div>;
-                    } else if (props) {
-                        return (
-                            <div style={styles.createPostWrapper}>
-                                <input
-                                    style={styles.titleWrapper}
-                                    value={this.state.title}
-                                    placeholder="Title"
-                                    onChange={e =>
-                                        this.setState({
-                                            title: e.target.value
-                                        })}
-                                />
-                                <textarea
-                                    style={styles.contentWrapper}
-                                    value={this.state.content}
-                                    placeholder="Content"
-                                    onChange={e =>
-                                        this.setState({
-                                            content: e.target.value
-                                        })}
-                                />
+            <div style={styles.createPostWrapper}>
+                <input
+                    style={styles.titleWrapper}
+                    value={this.state.title}
+                    placeholder="Title"
+                    onChange={e =>
+                        this.setState({
+                            title: e.target.value
+                        })}
+                />
+                <textarea
+                    style={styles.contentWrapper}
+                    value={this.state.content}
+                    placeholder="Content"
+                    onChange={e =>
+                        this.setState({
+                            content: e.target.value
+                        })}
+                />
 
-                                {this.state.title &&
-                                this.state.content && (
-                                    <button
-                                        style={styles.postButtonWrapper}
-                                        onClick={() =>
-                                            this._handlePost(props.viewer.id)}
-                                    >
-                                        Post
-                                    </button>
-                                )}
-                            </div>
-                        );
-                    }
-                    return <div>Loading</div>;
-                }}
-            />
+                {this.state.title &&
+                this.state.content && (
+                    <button style={styles.postButtonWrapper}>Post</button>
+                )}
+            </div>
         );
     }
-
-    _handlePost = viewerId => {
-        const { title, content } = this.state;
-        CreatePostMutation(title, content, viewerId, () => {
-            // window.location.href = "/";
-            this.props.history.push("/");
-        });
-    };
 }
 
 const styles = {
