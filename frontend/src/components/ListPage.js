@@ -14,7 +14,7 @@ class ListPage extends React.Component {
     componentDidMount() {
         const user = localStorage.getItem("User");
         if (user) {
-            this.setState({ user: user });
+            this.setState({ user: JSON.parse(user) });
         }
     }
 

@@ -25,7 +25,6 @@ export default (username, password, fullname, callback) => {
         mutation,
         variables,
         onCompleted: response => {
-            console.log("ZEBRA: ", response);
             callback(response.createUser.user);
         },
         onError: err => console.error(err)

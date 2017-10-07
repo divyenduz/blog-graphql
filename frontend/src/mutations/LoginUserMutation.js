@@ -27,7 +27,6 @@ export default (username, password, callback) => {
         mutation,
         variables,
         onCompleted: response => {
-            console.log("TIGER: ", response);
             callback(response.loginUser.user);
         },
         onError: err => console.error(err)

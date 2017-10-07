@@ -17,7 +17,8 @@ class CreatePost extends React.Component {
         super(props);
         this.state = {
             title: "",
-            content: ""
+            content: "",
+            user: null
         };
 
         this._handlePost = this._handlePost.bind(this);
@@ -25,7 +26,9 @@ class CreatePost extends React.Component {
 
     componentDidMount() {
         const user = localStorage.getItem("User");
-        if (!user) {
+        if (user) {
+            this.setState({ user: JSON.parse(user) });
+        } else {
             window.location.href = "/";
         }
     }
@@ -83,8 +86,7 @@ class CreatePost extends React.Component {
 
     _handlePost = viewerId => {
         const { title, content } = this.state;
-        CreatePostMutation(title, content, viewerId, () => {
-            // window.location.href = "/";
+        CreatePostMutation(title, content, this.state.user.id, viewerId, () => {
             this.props.history.push("/");
         });
     };

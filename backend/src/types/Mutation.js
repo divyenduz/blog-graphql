@@ -15,7 +15,8 @@ const CreatePostMutation = mutationWithClientMutationId({
     name: "CreatePost",
     inputFields: {
         title: { type: new GraphQLNonNull(GraphQLString) },
-        content: { type: new GraphQLNonNull(GraphQLString) }
+        content: { type: new GraphQLNonNull(GraphQLString) },
+        userId: { type: new GraphQLNonNull(GraphQLString) }
     },
     outputFields: {
         post: {
@@ -26,7 +27,8 @@ const CreatePostMutation = mutationWithClientMutationId({
         return new Promise((resolve, reject) => {
             PostModel.createPost({
                 title: args.title,
-                content: args.content
+                content: args.content,
+                userId: args.userId
             })
                 .then(post => resolve({ post }))
                 .catch(reject);
