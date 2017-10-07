@@ -23,6 +23,13 @@ class CreatePost extends React.Component {
         this._handlePost = this._handlePost.bind(this);
     }
 
+    componentDidMount() {
+        const user = localStorage.getItem("User");
+        if (!user) {
+            window.location.href = "/";
+        }
+    }
+
     render() {
         return (
             <QueryRenderer
@@ -54,15 +61,17 @@ class CreatePost extends React.Component {
                                 />
 
                                 {this.state.title &&
-                                this.state.content && (
-                                    <button
-                                        style={styles.postButtonWrapper}
-                                        onClick={() =>
-                                            this._handlePost(props.viewer.id)}
-                                    >
-                                        Post
-                                    </button>
-                                )}
+                                    this.state.content && (
+                                        <button
+                                            style={styles.postButtonWrapper}
+                                            onClick={() =>
+                                                this._handlePost(
+                                                    props.viewer.id
+                                                )}
+                                        >
+                                            Post
+                                        </button>
+                                    )}
                             </div>
                         );
                     }
