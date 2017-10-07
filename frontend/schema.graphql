@@ -9,9 +9,34 @@ type CreatePostPayload {
   clientMutationId: String
 }
 
+input CreateUserInput {
+  username: String!
+  password: String!
+  fullname: String!
+  clientMutationId: String
+}
+
+type CreateUserPayload {
+  user: User
+  clientMutationId: String
+}
+
+input LoginUserInput {
+  username: String!
+  password: String!
+  clientMutationId: String
+}
+
+type LoginUserPayload {
+  user: User
+  clientMutationId: String
+}
+
 # Mutation interface for our blog
 type Mutation {
   createPost(input: CreatePostInput!): CreatePostPayload
+  createUser(input: CreateUserInput!): CreateUserPayload
+  loginUser(input: LoginUserInput!): LoginUserPayload
 }
 
 # An object with an ID
@@ -77,8 +102,24 @@ type Query {
   viewer: Viewer!
 }
 
+# User type definition
+type User implements Node {
+  # The ID of an object
+  id: ID!
+
+  # User Full Name
+  fullname: String
+
+  # User Username
+  username: String
+
+  # User Password
+  password: String
+}
+
 type Viewer {
   allPosts(after: String, first: Int, before: String, last: Int): PostConnection!
+  User(id: ID, username: String): User
   id: ID!
 }
 

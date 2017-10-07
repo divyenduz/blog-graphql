@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
+
+import CreateUserMutation from "../mutations/CreateUserMutation";
+import LoginUserMutation from "../mutations/LoginUserMutation";
 
 class Login extends Component {
     state = {
@@ -67,12 +71,19 @@ class Login extends Component {
         );
     }
 
-    _confirm = async () => {
-        // ... you'll implement this in a bit
-    };
-
-    _saveUserData = (id, token) => {
-        // ... you'll implement this in a bit
+    _confirm = () => {
+        const { username, password, fullname } = this.state;
+        if (this.state.login) {
+            LoginUserMutation(username, password, user => {
+                localStorage.setItem("User", JSON.stringify(user));
+                this.props.history.push("/");
+            });
+        } else {
+            CreateUserMutation(username, password, fullname, user => {
+                localStorage.setItem("User", JSON.stringify(user));
+                this.props.history.push("/");
+            });
+        }
     };
 }
 
@@ -93,4 +104,4 @@ const styles = {
     }
 };
 
-export default Login;
+export default withRouter(Login);
