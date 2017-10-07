@@ -45,7 +45,7 @@ class Login extends Component {
                             value={this.state.fullname}
                             onChange={e =>
                                 this.setState({ fullname: e.target.value })}
-                            type="password"
+                            type="text"
                             placeholder="Enter Full Name"
                         />
                     )}
