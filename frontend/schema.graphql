@@ -1,6 +1,7 @@
 input CreatePostInput {
   title: String!
   content: String!
+  userId: String!
   clientMutationId: String
 }
 
@@ -70,6 +71,9 @@ type Post implements Node {
 
   # Content of the post
   content: String
+
+  # Author of the post
+  author: User
 }
 
 # A connection to a list of items.

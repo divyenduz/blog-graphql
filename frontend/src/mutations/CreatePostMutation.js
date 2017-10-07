@@ -11,7 +11,9 @@ const mutation = graphql`
                 id
                 title
                 content
-                userId
+                author {
+                    fullname
+                }
             }
         }
     }
