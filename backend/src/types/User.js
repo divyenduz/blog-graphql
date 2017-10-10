@@ -15,17 +15,17 @@ const User = new GraphQLObjectType({
     fields: {
         id: globalIdField(),
         fullname: {
-            type: GraphQLString,
+            type: new GraphQLNonNull(GraphQLString),
             description: "User Full Name",
             resolve: user => user.fullname
         },
         username: {
-            type: GraphQLString,
+            type: new GraphQLNonNull(GraphQLString),
             description: "User Username",
             resolve: user => user.username
         },
         password: {
-            type: GraphQLString,
+            type: new GraphQLNonNull(GraphQLString),
             description: "User Password",
             resolve: user => user.password
         }
