@@ -14,9 +14,6 @@ const userSchema = new Schema({
 var UserModal = mongoose.model("User", userSchema);
 
 module.exports = {
-    getUsers: () => {
-        return UserModal.find().sort({ _id: -1 });
-    },
     getUser: (id, username) => {
         return UserModal.findOne({
             $or: [{ _id: id }, { username: username }]
