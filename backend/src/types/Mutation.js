@@ -16,7 +16,8 @@ const CreatePostMutation = mutationWithClientMutationId({
     name: "CreatePost",
     inputFields: {
         title: { type: new GraphQLNonNull(GraphQLString) },
-        content: { type: new GraphQLNonNull(GraphQLString) }
+        content: { type: new GraphQLNonNull(GraphQLString) },
+        userId: { type: new GraphQLNonNull(GraphQLString) }
     },
     outputFields: {
         post: {
