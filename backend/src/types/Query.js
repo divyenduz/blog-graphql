@@ -8,8 +8,12 @@ const {
 
 const {
     connectionArgs,
-    connectionFromPromisedArray
+    connectionFromPromisedArray,
+    fromGlobalId
 } = require("graphql-relay");
+
+const { User } = require("./User");
+const UserModel = require("../model/User");
 
 const { nodeField } = require("../interface/Node");
 const { Post, PostConnection } = require("./Post");
@@ -29,6 +33,25 @@ const Viewer = new GraphQLObjectType({
             type: new GraphQLNonNull(GraphQLID),
             args: {},
             resolve: (_, args) => "viewer-fixed"
+        },
+        User: {
+            type: User,
+            args: {
+                id: {
+                    type: GraphQLID
+                },
+                username: {
+                    type: GraphQLString
+                }
+            },
+            resolve: (_, args) => {
+                const { type, id } = fromGlobalId(args.id);
+                if (type == "User") {
+                    return UserModel.getUser(id, args.username);
+                } else {
+                    return null;
+                }
+            }
         }
     }
 });
