@@ -17,10 +17,20 @@ class CreatePost extends React.Component {
         super(props);
         this.state = {
             title: "",
-            content: ""
+            content: "",
+            user: null
         };
 
         this._handlePost = this._handlePost.bind(this);
+    }
+
+    componentDidMount() {
+        const user = localStorage.getItem("User");
+        if (user) {
+            this.setState({ user: JSON.parse(user) });
+        } else {
+            window.location.href = "/";
+        }
     }
 
     render() {
@@ -54,15 +64,17 @@ class CreatePost extends React.Component {
                                 />
 
                                 {this.state.title &&
-                                this.state.content && (
-                                    <button
-                                        style={styles.postButtonWrapper}
-                                        onClick={() =>
-                                            this._handlePost(props.viewer.id)}
-                                    >
-                                        Post
-                                    </button>
-                                )}
+                                    this.state.content && (
+                                        <button
+                                            style={styles.postButtonWrapper}
+                                            onClick={() =>
+                                                this._handlePost(
+                                                    props.viewer.id
+                                                )}
+                                        >
+                                            Post
+                                        </button>
+                                    )}
                             </div>
                         );
                     }
@@ -74,8 +86,7 @@ class CreatePost extends React.Component {
 
     _handlePost = viewerId => {
         const { title, content } = this.state;
-        CreatePostMutation(title, content, viewerId, () => {
-            // window.location.href = "/";
+        CreatePostMutation(title, content, this.state.user.id, viewerId, () => {
             this.props.history.push("/");
         });
     };

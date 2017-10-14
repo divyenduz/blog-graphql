@@ -17,6 +17,7 @@ class Post extends React.Component {
             >
                 <h3>{this.props.post.title}</h3>
                 <Modal isOpen={this.state.isOpen}>
+                    By: <div>{this.props.post.author.fullname}</div>
                     <h3>{this.props.post.title}</h3>
                     <div>{this.props.post.content}</div>
                     <button
@@ -58,6 +59,9 @@ export default createFragmentContainer(
             id
             title
             content
+            author {
+                fullname
+            }
         }
     `
 );
