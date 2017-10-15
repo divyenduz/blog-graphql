@@ -70,7 +70,7 @@ export default createFragmentContainer(
     ListPage,
     graphql`
         fragment ListPage_viewer on Viewer {
-            allPosts(last: 100)
+            allPosts(last: 100, order: "DESC")
                 @connection(key: "ListPage_allPosts", filters: []) {
                 edges {
                     node {
