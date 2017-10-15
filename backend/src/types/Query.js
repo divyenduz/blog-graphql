@@ -25,9 +25,12 @@ const Viewer = new GraphQLObjectType({
     fields: {
         allPosts: {
             type: new GraphQLNonNull(PostConnection),
-            args: connectionArgs,
+            args: { ...connectionArgs, order: { type: GraphQLString } },
             resolve: (_, args) =>
-                connectionFromPromisedArray(PostModel.getPosts(), args)
+                connectionFromPromisedArray(
+                    PostModel.getPosts(args.order),
+                    args
+                )
         },
         id: {
             type: new GraphQLNonNull(GraphQLID),
