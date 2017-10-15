@@ -1,6 +1,7 @@
 input CreatePostInput {
   title: String!
   content: String!
+  userId: String!
   clientMutationId: String
 }
 
@@ -121,7 +122,7 @@ type User implements Node {
 }
 
 type Viewer {
-  allPosts(after: String, first: Int, before: String, last: Int): PostConnection!
+  allPosts(after: String, first: Int, before: String, last: Int, order: String): PostConnection!
   id: ID!
   User(id: ID, username: String): User
 }

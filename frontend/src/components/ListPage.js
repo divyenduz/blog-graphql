@@ -1,6 +1,6 @@
 import React from "react";
 import Post from "./Post";
-import { createFragmentContainer, graphql } from "react-relay";
+import { createPaginationContainer, graphql } from "react-relay";
 import { Link } from "react-router-dom";
 
 class ListPage extends React.Component {
@@ -9,6 +9,7 @@ class ListPage extends React.Component {
         this.state = {
             user: null
         };
+        this._loadMore = this._loadMore.bind(this);
     }
 
     componentDidMount() {
@@ -45,8 +46,29 @@ class ListPage extends React.Component {
                         <Post key={node.__id} post={node} />
                     ))}
                 </div>
+
+                <button
+                    style={styles.buttonWrapper}
+                    onClick={() => this._loadMore()}
+                >
+                    Load More
+                </button>
             </div>
         );
+    }
+
+    _loadMore() {
+        console.log(this.props.relay);
+        console.log(this.props.relay.hasMore());
+        if (!this.props.relay.hasMore()) {
+            console.log(`Nothing more to load`);
+            return;
+        } else if (this.props.relay.isLoading()) {
+            console.log(`Request is already pending`);
+            return;
+        }
+
+        this.props.relay.loadMore(1);
     }
 }
 
@@ -66,18 +88,47 @@ const styles = {
     }
 };
 
-export default createFragmentContainer(
+export default createPaginationContainer(
     ListPage,
     graphql`
         fragment ListPage_viewer on Viewer {
-            allPosts(last: 100)
+            allPosts(first: $count, after: $after, order: "DESC")
                 @connection(key: "ListPage_allPosts", filters: []) {
                 edges {
                     node {
                         ...Post_post
                     }
                 }
+                pageInfo {
+                    hasNextPage
+                    endCursor
+                }
             }
         }
-    `
+    `,
+    {
+        direction: "forward",
+        query: graphql`
+            query ListPageForwardQuery($count: Int!, $after: String) {
+                viewer {
+                    ...ListPage_viewer
+                }
+            }
+        `,
+        getConnectionFromProps(props) {
+            return props.viewer && props.viewer.allPosts;
+        },
+        getFragmentVariables(previousVariables, totalCount) {
+            return {
+                ...previousVariables,
+                count: totalCount
+            };
+        },
+        getVariables(props, paginationInfo, fragmentVariables) {
+            return {
+                count: paginationInfo.count,
+                after: paginationInfo.cursor
+            };
+        }
+    }
 );
