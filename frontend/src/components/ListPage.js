@@ -58,8 +58,6 @@ class ListPage extends React.Component {
     }
 
     _loadMore() {
-        console.log(this.props.relay);
-        console.log(this.props.relay.hasMore());
         if (!this.props.relay.hasMore()) {
             console.log(`Nothing more to load`);
             return;
