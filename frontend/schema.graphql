@@ -18,7 +18,7 @@ input CreateUserInput {
 }
 
 type CreateUserPayload {
-  user: User
+  message: String
   clientMutationId: String
 }
 
