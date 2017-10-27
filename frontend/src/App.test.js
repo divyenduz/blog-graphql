@@ -13,11 +13,7 @@ it("renders without crashing", () => {
     ReactDOM.render(<App />, div);
 });
 
-describe("Addition", () => {
-    it("knows that 2 and 2 make 4", () => {
-        expect(2 + 2).toBe(4);
-    });
-
+describe("Post Component", () => {
     it("should test Post title", () => {
         const post = {
             id: 1,
@@ -28,5 +24,20 @@ describe("Addition", () => {
         const wrapper = mount(<Post post={post} />);
         const h3 = wrapper.find("h3");
         expect(h3.text()).toBe(post.title);
+    });
+
+    it("should test Post content modal open", () => {
+        const post = {
+            id: 1,
+            title: "Post One",
+            content: "Post one content",
+            author: "Divyendu"
+        };
+        const wrapper = mount(<Post post={post} />);
+        const isOpenPreClick = wrapper.state().isOpen;
+        expect(isOpenPreClick).toBe(false);
+        wrapper.simulate("click"); // Click should open the Modal
+        const isOpenPostClick = wrapper.state().isOpen;
+        expect(isOpenPostClick).toBe(true);
     });
 });
