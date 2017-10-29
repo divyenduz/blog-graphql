@@ -4,7 +4,6 @@ import { storiesOf } from "@storybook/react";
 import StubContainer from "react-storybooks-relay-container";
 
 import Post from "../src/components/Post";
-import ListPage from "../src/components/ListPage";
 
 storiesOf("Post", module)
     .add("with post one", () => (
@@ -31,28 +30,3 @@ storiesOf("Post", module)
             }}
         />
     ));
-
-storiesOf("ListPage", module).add("with posts", () => (
-    <StubContainer
-        Component={ListPage}
-        props={{
-            viewer: {
-                allPosts: {
-                    edges: [
-                        {
-                            id: 1,
-                            title: "Post One",
-                            content: "Post one content",
-                            author: "Divyendu"
-                        },
-                        {
-                            title: "Post Two with a Much Longer Title",
-                            content: "Post Two content",
-                            author: "Divyendu"
-                        }
-                    ]
-                }
-            }
-        }}
-    />
-));
